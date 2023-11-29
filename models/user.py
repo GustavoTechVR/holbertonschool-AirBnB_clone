@@ -10,11 +10,11 @@ class User(BaseModel):
     """
     User class for representing a user.
     """
-    def _init_(self):
+    def __init__(self):
         """Initialize User instance."""
         pass
 
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     my_user = User()
     print(my_user)

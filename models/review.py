@@ -10,11 +10,11 @@ class Review(BaseModel):
     """
     Review class for representing a review.
     """
-    def _init_(self):
+    def __init__(self):
         """Initialize Review instance."""
         pass
 
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     my_review = Review()
     print(my_review)

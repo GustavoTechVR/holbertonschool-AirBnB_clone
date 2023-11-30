@@ -10,10 +10,9 @@ class Place(BaseModel):
     """
     Place class for representing a place.
     """
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """Initialize Place instance."""
-        pass
-
+         super().__init__(*args, **kwargs)
 
 if __name__ == '__main__':
     my_place = Place()

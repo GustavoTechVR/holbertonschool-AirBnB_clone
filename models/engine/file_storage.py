@@ -1,43 +1,44 @@
 #!/usr/bin/python3
 """
-FileStorage module for AirBnB clone project.
+Module for FileStorage class
 """
-
+import json
+from os.path import exists
+from models.base_model import BaseModel
 
 class FileStorage:
     """
-    FileStorage class for handling the serialization and deserialization
-    of instances to and from JSON format.
+    Serializes instances to a JSON file and deserializes JSON file to instances
     """
-    def __init__(self):
-        """Initialize FileStorage instance."""
-        self.data = None
+    __file_path = "file.json"
+    __objects = {}
 
-    def save(self):
-        # Add save functionality if needed
-        pass
+    def all(self):
+        """Returns the dictionary __objects"""
+        return self.__objects
 
     def new(self, obj):
-        # Add new functionality if needed
-        pass
+        """Sets in __objects the obj with key <obj class name>.id"""
+        key = f"{obj._class.name_}.{obj.id}"
+        self.__objects[key] = obj
+
+    def save(self):
+        """Serializes __objects to the JSON file (path: __file_path)"""
+        serialized_objs = {key: obj.to_dict() for key, obj in self.__objects.items()}
+        with open(self.__file_path, mode='w', encoding='utf-8') as file:
+            json.dump(serialized_objs, file)
 
     def reload(self):
-        # Add reload functionality if needed
-        pass
-
-    def get_data(self):
-        return self.data
-
-    def set_data(self, new_data):
-        self.data = new_data
-
-    def set_custom_config(self, value):
-        self.custom_config = value
-
-    def get_custom_config(self):
-        return getattr(self, 'custom_config', None)
+        """Deserializes the JSON file to __objects if the file exists"""
+        if exists(self.__file_path):
+            with open(self.__file_path, mode='r', encoding='utf-8') as file:
+                loaded_objs = json.load(file)
+                for key, value in loaded_objs.items():
+                    class_name, obj_id = key.split('.')
+                    obj = eval(class_name)(**value)
+                    self.__objects[key] = obj
 
 
-if __name__ == '__main__':
-    my_storage = FileStorage()
-    print(my_storage)
+# Create a unique FileStorage instance for the application
+storage = FileStorage()
+storage.reload()

@@ -4,6 +4,8 @@ Module for BaseModel class
 """
 import uuid
 from datetime import datetime
+
+
 class BaseModel:
     """
     BaseModel class with attributes and methods for other classes to inherit
@@ -31,6 +33,7 @@ class BaseModel:
         """Updates the updated_at attribute and saves to storage"""
         self.updated_at = datetime.now()
         storage.save()
+
 
 if __name__ == '__main__':
     my_model = BaseModel()
